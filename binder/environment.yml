@@ -1,0 +1,15 @@
+name: neural-image-brightness-cluster-analysis-script-binderized
+channels:
+- conda-forge
+- bioconda
+- r
+dependencies:
+- r-base>=4
+- r-irkernel>=1.1
+- r-magrittr
+- r-tidyverse
+- r-imager
+- r-magick
+- r-spatstat
+- r-EBImage
+- r-ggplot2
