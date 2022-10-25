@@ -11,5 +11,4 @@ dependencies:
 - r-imager
 - r-magick
 - r-spatstat
-- r-EBImage
 - r-ggplot2
