@@ -1,1 +1,1 @@
-libmagick+±dev
+libmagick++-dev
