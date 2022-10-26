@@ -81,7 +81,15 @@ c2 <- readImage( filepath_of_image_for_input_combined )
 
 plot(c2)
 
-c2_gray = channel(c2, 'gray')
+if (colorMode(c2) != Grayscale) {
+
+   c2_gray = channel(c2, 'gray')
+
+} else {
+
+    c2_gray = c2
+
+}
 
 plot(c2_gray)
 
@@ -124,7 +132,15 @@ filepath_of_image_for_output_temp <- paste( filepath_of_image_for_output_folder_
 
 maskimage_in_ebimageformat = readImage( filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_combined )
 
-maskimage_in_ebimageformat_gray = channel(maskimage_in_ebimageformat, 'gray')
+if (colorMode(maskimage_in_ebimageformat) != maskimage_in_ebimageformat) {
+
+   maskimage_in_ebimageformat_gray = channel(maskimage_in_ebimageformat, 'gray')
+
+} else {
+
+    maskimage_in_ebimageformat_gray = maskimage_in_ebimageformat
+
+}
 
 maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
@@ -134,7 +150,15 @@ c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_orig
 plot(c2_gray_original_nonblurred_image)
 
 
-c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+if (colorMode(c2_gray_original_nonblurred_image) != maskimage_in_ebimageformat) {
+
+   c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+
+} else {
+
+    c2_gray_original_nonblurred_image_gray = c2_gray_original_nonblurred_image
+
+}
 
 plot(c2_gray_original_nonblurred_image_gray)
 
@@ -276,7 +300,15 @@ c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_orig
 plot(c2_gray_original_nonblurred_image)
 
 
-c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+if (colorMode(c2_gray_original_nonblurred_image) != Grayscale) {
+
+   c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+
+} else {
+
+   c2_gray_original_nonblurred_image_gray = c2_gray_original_nonblurred_image
+
+}
 
 plot(c2_gray_original_nonblurred_image_gray)
 
@@ -411,8 +443,7 @@ w_func[ list_test_as_numeric_new_as_ppp$x[n_looping],      (  (dim(c2_gray)[2]) 
 
 
 
-display(w_func, method="raster")
-
+image(w_func, axes = FALSE, col = grey(seq(1, 0, length = 256)))
 
 
 
@@ -425,9 +456,8 @@ png(filepath_of_image_for_output_temp, width= (dim(c2_gray)[1]) , height= (dim(c
 
 par(mar=c(0, 0, 0, 0));
 
-
-display(w_func, method="raster")
-
+image(w_func, axes = FALSE, col = grey(seq(1, 0, length = 256)))
+		 
 dev.off();   
 
 
@@ -441,7 +471,15 @@ filepath_of_image_for_output_temp <- paste( filepath_of_image_for_output_folder_
 maskimage_in_ebimageformat = readImage( filepath_output_c2_gray_eval_brightnessabovethresholdvalue_cnt )
 
 
-maskimage_in_ebimageformat_gray = channel(maskimage_in_ebimageformat, 'gray')
+if (colorMode(maskimage_in_ebimageformat) != Grayscale) {
+
+   maskimage_in_ebimageformat_gray = channel(maskimage_in_ebimageformat, 'gray')
+
+} else {
+
+    maskimage_in_ebimageformat_gray = maskimage_in_ebimageformat
+
+}
 
 maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
@@ -454,7 +492,15 @@ c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_orig
 plot(c2_gray_original_nonblurred_image)
 
 
-c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+if (colorMode(c2_gray_original_nonblurred_image) != Grayscale) {
+
+   c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+
+} else {
+
+   c2_gray_original_nonblurred_image_gray = c2_gray_original_nonblurred_image
+
+}
 
 plot(c2_gray_original_nonblurred_image_gray)
 
@@ -475,7 +521,7 @@ plot( maskimage_transparentlyoverlayed_over_orginalnonblurredimage )
 
 
 
-writeImage(maskimage_transparentlyoverlayed_over_orginalnonblurredimage, filepath_of_image_for_output_temp, quality=100);
+writeImage(maskimage_transparentlyoverlayed_over_orginalnonblurredimage, filepath_of_image_for_output_temp, quality=100)
 
 
 
@@ -487,7 +533,15 @@ filepath_of_image_for_output_temp <- paste( filepath_of_image_for_output_folder_
 maskimage_in_ebimageformat = readImage( filepath_output_c2_gray_eval_brightnessabovethresholdvalue_cnt )
 
 
-maskimage_in_ebimageformat_gray = channel(maskimage_in_ebimageformat, 'gray')
+if (colorMode(maskimage_in_ebimageformat) != Grayscale) {
+
+   maskimage_in_ebimageformat_gray = channel(maskimage_in_ebimageformat, 'gray')
+
+} else {
+
+    maskimage_in_ebimageformat_gray = maskimage_in_ebimageformat
+
+}
 
 maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
@@ -500,7 +554,15 @@ c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_orig
 plot(c2_gray_original_nonblurred_image)
 
 
-c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+if (colorMode(c2_gray_original_nonblurred_image) != Grayscale) {
+
+   c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+
+} else {
+
+   c2_gray_original_nonblurred_image_gray = c2_gray_original_nonblurred_image
+
+}
 
 plot(c2_gray_original_nonblurred_image_gray)
 
@@ -533,7 +595,15 @@ filepath_of_image_for_output_temp <- paste( filepath_of_image_for_output_folder_
 maskimage_in_ebimageformat = readImage( filepath_output_c2_gray_eval_brightnessabovethresholdvalue_cnt )
 
 
-maskimage_in_ebimageformat_gray = channel(maskimage_in_ebimageformat, 'gray')
+if (colorMode(maskimage_in_ebimageformat) != Grayscale) {
+
+   maskimage_in_ebimageformat_gray = channel(maskimage_in_ebimageformat, 'gray')
+
+} else {
+
+   maskimage_in_ebimageformat_gray = maskimage_in_ebimageformat
+
+}
 
 maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
@@ -546,7 +616,15 @@ c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_orig
 plot(c2_gray_original_nonblurred_image)
 
 
-c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+if (colorMode(c2_gray_original_nonblurred_image) != Grayscale) {
+
+   c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
+
+} else {
+
+   c2_gray_original_nonblurred_image_gray = c2_gray_original_nonblurred_image
+
+}
 
 plot(c2_gray_original_nonblurred_image_gray)
 
