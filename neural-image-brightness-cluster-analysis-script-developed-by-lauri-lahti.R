@@ -32,7 +32,7 @@ analysis_list_of_filenames_initial_original_nonblurred_images <- c(
 )
 
 analysis_list_of_folders_initial <- c(
-"\\experiments\\set001\\"  
+"/experiments/set001/"  
 )
 
 analysis_list_of_max_number_of_pixels_in_segment_so_that_this_segment_still_needs_to_be_removed <- c( -1 )
@@ -41,7 +41,7 @@ analysis_list_of_brightness_thresholdvalue <- c(0.10 )
 
 brightness_thresholdvalue_toensureshowingtrailingzeros_numberofdigitsshownafterdecimaldot = 2
 
-current_working_directory <- getwd()
+current_working_directory <- "."
 
 
 	
@@ -54,9 +54,9 @@ for( counter_index_for_analysis in 1:length(analysis_list_of_filenames_initial) 
       for( counter_index_for_brightness_thresholdvalue in 1:length(analysis_list_of_brightness_thresholdvalue) ) {
 
 
-filepath_of_image_for_input_folder_initial <- paste( current_working_directory , "\\inputimages\\" , sep="") 
+filepath_of_image_for_input_folder_initial <- paste( current_working_directory , "/inputimages/" , sep="") 
 
-filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_folder_initial <- paste( current_working_directory , "\\maskimages\\" , sep="")
+filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_folder_initial <- paste( current_working_directory , "/maskimages/" , sep="")
 
 filepath_of_image_for_input_filename_initial <- analysis_list_of_filenames_initial[ counter_index_for_analysis ]
 
