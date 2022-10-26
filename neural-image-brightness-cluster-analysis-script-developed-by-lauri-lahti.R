@@ -32,7 +32,7 @@ analysis_list_of_filenames_initial_original_nonblurred_images <- c(
 )
 
 analysis_list_of_folders_initial <- c(
-"\\experiments\\test_set001\\"  
+"\\experiments\\set001\\"  
 )
 
 analysis_list_of_max_number_of_pixels_in_segment_so_that_this_segment_still_needs_to_be_removed <- c( -1 )
