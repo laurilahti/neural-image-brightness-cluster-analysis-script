@@ -2,15 +2,47 @@
 
 #   This script can be used by anyone for non-commercial purposes while citing the just-mentioned research article (Lahti, Lauri, 2022) which provides further details.
 
-#   This current version (20221026a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 26 October 2022.
+#   This current version (20221027a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 27 October 2022.
 
-#   Please kindly note: This current version (20221026a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
+#   Please kindly note: This current version (20221027a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
 
 
-image_x_axis_length = 512
-image_y_axis_length = 512
-x_func_axis_length = image_x_axis_length
-y_func_axis_length = image_y_axis_length
+if( !("magrittr" %in% rownames( installed.packages() ) ) ) {
+   install.packages("magrittr")
+}
+
+if( !("tidyverse" %in% rownames( installed.packages() ) ) ) {
+   install.packages("tidyverse")
+}
+
+if( !("imager" %in% rownames( installed.packages() ) ) ) {
+   install.packages("imager")
+}
+
+if( !("magick" %in% rownames( installed.packages() ) ) ) {
+   install.packages("magick")
+}
+
+if( !("spatstat" %in% rownames( installed.packages() ) ) ) {
+   install.packages("spatstat")
+}
+
+if( !("BiocManager" %in% rownames( installed.packages() ) ) ) {
+   install.packages("BiocManager")
+}
+
+if( !("locfit" %in% rownames( installed.packages() ) ) ) {
+   install.packages("locfit")
+}
+
+if( !("EBImage" %in% rownames( installed.packages() ) ) ) {
+   BiocManager::install("EBImage", update=FALSE, ask=FALSE)
+}
+
+if( !("ggplot2" %in% rownames( installed.packages() ) ) ) {
+   install.packages("ggplot2")
+}
+
 
 library(magrittr)
 library(tidyverse)
@@ -23,25 +55,150 @@ library(EBImage)
 library(ggplot2)
 
 
-analysis_list_of_filenames_initial <- c(
+current_working_directory <- "."
+
+analysis_list_of_filenames_inputimages <- c(
 "image001"  
 )
 
-analysis_list_of_filenames_initial_original_nonblurred_images <- c(
-"image001"  
-)
+image_x_axis_length = 512
+image_y_axis_length = 512
 
-analysis_list_of_folders_initial <- c(
-"/experiments/set001/"  
-)
+size_of_brush_of_Gaussian_kernel <- 51
 
-analysis_list_of_max_number_of_pixels_in_segment_so_that_this_segment_still_needs_to_be_removed <- c( -1 )
+value_of_sigma_for_brush_of_Gaussian_kernel_list <- c( 0.8 )
 
 analysis_list_of_brightness_thresholdvalue <- c(0.10 )
 
+analysis_list_of_max_number_of_pixels_in_segment_so_that_this_segment_still_needs_to_be_removed <- c( -1 )
+
 brightness_thresholdvalue_toensureshowingtrailingzeros_numberofdigitsshownafterdecimaldot = 2
 
-current_working_directory <- "."
+
+analysis_list_of_filenames_initial <- NULL
+
+analysis_list_of_filenames_initial_original_nonblurred_images <- NULL
+
+analysis_list_of_folders_initial <- NULL
+
+
+list_of_files_to_be_removed <- list.files( paste( current_working_directory , "/experiments/", sep="" )  , include.dirs = TRUE, full.names = TRUE, recursive = TRUE )
+
+list_of_files_to_be_removed <-  list_of_files_to_be_removed[lapply(list_of_files_to_be_removed,function(x) length(grep("readme-experiments.txt",x,value=FALSE))) == 0]
+
+unlink( list_of_files_to_be_removed , recursive = TRUE )
+ 
+
+x_func_axis_length = image_x_axis_length
+y_func_axis_length = image_y_axis_length
+
+
+
+for( analysis_list_of_filenames_inputimages_counter in 1:(   length( analysis_list_of_filenames_inputimages )  ) )  {
+
+
+for( value_of_sigma_for_brush_of_Gaussian_kernel_list_counter in 1:(   length( value_of_sigma_for_brush_of_Gaussian_kernel_list )  ) )  {
+
+
+
+sigma_value_for_brush = value_of_sigma_for_brush_of_Gaussian_kernel_list[value_of_sigma_for_brush_of_Gaussian_kernel_list_counter]
+
+
+filepath_of_image_for_blurringinput_initial_withoutending =  analysis_list_of_filenames_inputimages[analysis_list_of_filenames_inputimages_counter] 
+
+
+filepath_of_image_for_blurringinput_combined = paste( current_working_directory , "/inputimages/" , filepath_of_image_for_blurringinput_initial_withoutending  , ".tif", sep="")
+
+
+
+
+if( sigma_value_for_brush > -1 ) {
+
+
+filepath_of_image_for_output_combined = paste( current_working_directory , "/inputimages/" , filepath_of_image_for_blurringinput_initial_withoutending , "_sm",  gsub("\\.", "dot", sigma_value_for_brush) , ".tif", sep="")
+
+
+image_test_in_ebimageformat_exp <- readImage( filepath_of_image_for_blurringinput_combined )
+
+plot(image_test_in_ebimageformat_exp)
+
+
+image_test_in_ebimageformat_exp
+
+
+w_brush = makeBrush(size = size_of_brush_of_Gaussian_kernel, shape = "gaussian", sigma = sigma_value_for_brush)
+
+tibble(w_brush = w_brush[(nrow(w_brush)+1)/2, ]) %>% ggplot(aes(y = w_brush, x = seq(along = w_brush))) + geom_point()
+
+
+nucSmooth = filter2(getFrame( image_test_in_ebimageformat_exp , 1), w_brush)
+
+
+EBImage::display(nucSmooth, method = "raster")
+
+
+writeImage(nucSmooth, filepath_of_image_for_output_combined )
+
+
+         if (   not(  is.null( analysis_list_of_filenames_initial )  )  )  { 
+
+                          analysis_list_of_filenames_initial <- c(   analysis_list_of_filenames_initial , paste( filepath_of_image_for_blurringinput_initial_withoutending , "_sm",  gsub("\\.", "dot", sigma_value_for_brush) , sep="")     )
+
+analysis_list_of_filenames_initial_original_nonblurred_images <- c(   analysis_list_of_filenames_initial_original_nonblurred_images , filepath_of_image_for_blurringinput_initial_withoutending      )
+
+         } else {  
+
+                          analysis_list_of_filenames_initial <- c( paste( filepath_of_image_for_blurringinput_initial_withoutending , "_sm",  gsub("\\.", "dot", sigma_value_for_brush) , sep="")     )
+
+analysis_list_of_filenames_initial_original_nonblurred_images <- c(   filepath_of_image_for_blurringinput_initial_withoutending      )
+
+         }
+
+
+
+
+} else { 
+
+
+         if (   not(  is.null( analysis_list_of_filenames_initial )  )  )  { 
+
+                          analysis_list_of_filenames_initial <- c(   analysis_list_of_filenames_initial , filepath_of_image_for_blurringinput_initial_withoutending      )
+
+analysis_list_of_filenames_initial_original_nonblurred_images <- c(   analysis_list_of_filenames_initial_original_nonblurred_images , filepath_of_image_for_blurringinput_initial_withoutending      )
+
+
+         } else {  
+
+                          analysis_list_of_filenames_initial <- c(  filepath_of_image_for_blurringinput_initial_withoutending   )
+
+analysis_list_of_filenames_initial_original_nonblurred_images <- c(   filepath_of_image_for_blurringinput_initial_withoutending      )
+
+
+
+         }
+
+
+
+
+} 
+
+
+
+
+}  
+
+
+}  
+
+
+
+
+
+
+
+
+
+
 
 
 	
@@ -64,7 +221,27 @@ filepath_of_image_for_input_filename_initial_original_nonblurred_images <- analy
 
 filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_filename_initial <- paste( analysis_list_of_filenames_initial_original_nonblurred_images[ counter_index_for_analysis ] , "_mask01nb", sep="" )
 
-filepath_of_image_for_output_folder_initial <- paste( current_working_directory , analysis_list_of_folders_initial[ counter_index_for_analysis ] , sep="")
+
+
+filepath_of_image_for_output_folder_initial <- paste( current_working_directory , "/experiments/", "set", sprintf("%03d", counter_index_for_analysis ) , "/" , sep="")
+
+dir.create( filepath_of_image_for_output_folder_initial )
+
+
+         if (   not(  is.null( analysis_list_of_folders_initial )  )  )  { 
+
+                          analysis_list_of_folders_initial <- c(   analysis_list_of_folders_initial , filepath_of_image_for_output_folder_initial     )
+
+
+         } else {  
+
+                          analysis_list_of_folders_initial <- c( filepath_of_image_for_output_folder_initial     )
+
+
+         }
+
+
+
 
 filepath_of_image_for_output_filename_initial <- analysis_list_of_filenames_initial[ counter_index_for_analysis ]
 
@@ -731,6 +908,8 @@ write.table( combination_of_properties_about_regions_writeoutputformatting_simpl
 
 
 }    
+
+
 
 
 
