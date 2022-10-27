@@ -68,7 +68,7 @@ size_of_brush_of_Gaussian_kernel <- 51
 
 value_of_sigma_for_brush_of_Gaussian_kernel_list <- c( 0.8 )
 
-analysis_list_of_brightness_thresholdvalue <- c(0.10 )
+analysis_list_of_brightness_thresholdvalue <- c( 0.10 )
 
 analysis_list_of_max_number_of_pixels_in_segment_so_that_this_segment_still_needs_to_be_removed <- c( -1 )
 
@@ -309,7 +309,7 @@ filepath_of_image_for_output_temp <- paste( filepath_of_image_for_output_folder_
 
 maskimage_in_ebimageformat = readImage( filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_combined )
 
-if (colorMode(maskimage_in_ebimageformat) != maskimage_in_ebimageformat) {
+if (colorMode(maskimage_in_ebimageformat) != Grayscale) {
 
    maskimage_in_ebimageformat_gray = channel(maskimage_in_ebimageformat, 'gray')
 
@@ -327,7 +327,7 @@ c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_orig
 plot(c2_gray_original_nonblurred_image)
 
 
-if (colorMode(c2_gray_original_nonblurred_image) != maskimage_in_ebimageformat) {
+if (colorMode(c2_gray_original_nonblurred_image) != Grayscale) {
 
    c2_gray_original_nonblurred_image_gray = channel(c2_gray_original_nonblurred_image, 'gray')
 
@@ -908,6 +908,9 @@ write.table( combination_of_properties_about_regions_writeoutputformatting_simpl
 
 
 }    
+
+
+print( "The running of the script https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script/blob/main/neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R has ended and aimed to generate analysis results." )
 
 
 
