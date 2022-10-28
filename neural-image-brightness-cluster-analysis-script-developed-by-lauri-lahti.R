@@ -2,9 +2,9 @@
 
 #   This script can be used by anyone for non-commercial purposes while citing the just-mentioned research article (Lahti, Lauri, 2022) which provides further details.
 
-#   This current version (20221027a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 27 October 2022.
+#   This current version (20221028a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 28 October 2022.
 
-#   Please kindly note: This current version (20221027a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
+#   Please kindly note: This current version (20221028a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
 
 
 if( !("magrittr" %in% rownames( installed.packages() ) ) ) {
@@ -43,6 +43,10 @@ if( !("ggplot2" %in% rownames( installed.packages() ) ) ) {
    install.packages("ggplot2")
 }
 
+if( !("ijtiff" %in% rownames( installed.packages() ) ) ) {
+   install.packages("ijtiff")
+}
+
 
 library(magrittr)
 library(tidyverse)
@@ -53,6 +57,7 @@ library(magick)
 library(spatstat)
 library(EBImage)
 library(ggplot2)
+library(ijtiff)
 
 
 current_working_directory <- "."
@@ -118,7 +123,12 @@ if( sigma_value_for_brush > -1 ) {
 filepath_of_image_for_output_combined = paste( current_working_directory , "/inputimages/" , filepath_of_image_for_blurringinput_initial_withoutending , "_sm",  gsub("\\.", "dot", sigma_value_for_brush) , ".tif", sep="")
 
 
-image_test_in_ebimageformat_exp <- readImage( filepath_of_image_for_blurringinput_combined )
+
+image_in_ijtiffformat <- read_tif(filepath_of_image_for_blurringinput_combined)
+
+image_in_ijtiffformat 
+
+image_test_in_ebimageformat_exp <-  as_EBImage(image_in_ijtiffformat)
 
 plot(image_test_in_ebimageformat_exp)
 
@@ -254,7 +264,15 @@ filepath_of_image_for_input_original_nonblurred_images_combined <- paste( filepa
 filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_combined <- paste( filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_folder_initial, filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_filename_initial, ".png", sep="" ) 
 
 
-c2 <- readImage( filepath_of_image_for_input_combined )
+
+
+image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_combined)
+
+image_in_ijtiffformat 
+
+c2 <-  as_EBImage(image_in_ijtiffformat)
+
+
 
 plot(c2)
 
@@ -307,7 +325,11 @@ image_write(image_test_in_magickimageformat_observ2, path = filepath_of_image_fo
 filepath_of_image_for_output_temp <- paste( filepath_of_image_for_output_folder_initial, filepath_of_image_for_output_filename_initial, "_masktr", ".png", sep="" ) 
 
 
-maskimage_in_ebimageformat = readImage( filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_combined )
+
+
+maskimage_in_ebimageformat_initial = readImage( filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_combined )
+
+maskimage_in_ebimageformat = getFrame( maskimage_in_ebimageformat_initial, i=1 )
 
 if (colorMode(maskimage_in_ebimageformat) != Grayscale) {
 
@@ -322,7 +344,14 @@ if (colorMode(maskimage_in_ebimageformat) != Grayscale) {
 maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
 
-c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_original_nonblurred_images_combined )
+
+
+image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
+
+image_in_ijtiffformat 
+
+c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
+
 
 plot(c2_gray_original_nonblurred_image)
 
@@ -471,7 +500,13 @@ dev.off()
 
 
 
-c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_original_nonblurred_images_combined )
+
+
+image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
+
+image_in_ijtiffformat 
+
+c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
 
 
 plot(c2_gray_original_nonblurred_image)
@@ -620,7 +655,7 @@ w_func[ list_test_as_numeric_new_as_ppp$x[n_looping],      (  (dim(c2_gray)[2]) 
 
 
 
-image(w_func, axes = FALSE, col = grey(seq(1, 0, length = 256)))
+image(w_func, axes = FALSE, col = grey(seq(0, 1, length = 256)))
 
 
 
@@ -633,7 +668,7 @@ png(filepath_of_image_for_output_temp, width= (dim(c2_gray)[1]) , height= (dim(c
 
 par(mar=c(0, 0, 0, 0));
 
-image(w_func, axes = FALSE, col = grey(seq(1, 0, length = 256)))
+image(w_func, axes = FALSE, col = grey(seq(0, 1, length = 256)))
 		 
 dev.off();   
 
@@ -645,7 +680,11 @@ filepath_of_image_for_output_temp <- paste( filepath_of_image_for_output_folder_
 
 
 
-maskimage_in_ebimageformat = readImage( filepath_output_c2_gray_eval_brightnessabovethresholdvalue_cnt )
+
+
+maskimage_in_ebimageformat_initial = readImage( filepath_output_c2_gray_eval_brightnessabovethresholdvalue_cnt )
+
+maskimage_in_ebimageformat = getFrame( maskimage_in_ebimageformat_initial, i=1 )
 
 
 if (colorMode(maskimage_in_ebimageformat) != Grayscale) {
@@ -663,7 +702,12 @@ maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
 
 
-c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_original_nonblurred_images_combined )
+
+image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
+
+image_in_ijtiffformat 
+
+c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
 
 
 plot(c2_gray_original_nonblurred_image)
@@ -707,7 +751,10 @@ filepath_of_image_for_output_temp <- paste( filepath_of_image_for_output_folder_
 
 
 
-maskimage_in_ebimageformat = readImage( filepath_output_c2_gray_eval_brightnessabovethresholdvalue_cnt )
+
+maskimage_in_ebimageformat_initial = readImage( filepath_output_c2_gray_eval_brightnessabovethresholdvalue_cnt )
+
+maskimage_in_ebimageformat = getFrame( maskimage_in_ebimageformat_initial, i=1 )
 
 
 if (colorMode(maskimage_in_ebimageformat) != Grayscale) {
@@ -725,7 +772,12 @@ maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
 
 
-c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_original_nonblurred_images_combined )
+
+image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
+
+image_in_ijtiffformat 
+
+c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
 
 
 plot(c2_gray_original_nonblurred_image)
@@ -769,7 +821,10 @@ filepath_of_image_for_output_temp <- paste( filepath_of_image_for_output_folder_
 
 
 
-maskimage_in_ebimageformat = readImage( filepath_output_c2_gray_eval_brightnessabovethresholdvalue_cnt )
+
+maskimage_in_ebimageformat_initial = readImage( filepath_output_c2_gray_eval_brightnessabovethresholdvalue_cnt )
+
+maskimage_in_ebimageformat = getFrame( maskimage_in_ebimageformat_initial, i=1 )
 
 
 if (colorMode(maskimage_in_ebimageformat) != Grayscale) {
@@ -787,7 +842,12 @@ maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
 
 
-c2_gray_original_nonblurred_image <- readImage( filepath_of_image_for_input_original_nonblurred_images_combined )
+
+image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
+
+image_in_ijtiffformat 
+
+c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
 
 
 plot(c2_gray_original_nonblurred_image)
