@@ -2,9 +2,11 @@
 
 #   This script can be used by anyone for non-commercial purposes while citing the just-mentioned research article (Lahti, Lauri, 2022) which provides further details.
 
-#   This current version (20221028a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 28 October 2022.
+#   This current version (20221030a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 30 October 2022.
 
-#   Please kindly note: This current version (20221028a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
+#   Please kindly note: This current version (20221030a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
+
+#   If the running of the script "neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R" produces error messages this may be related to having some conflicting settings. Some error messages can originate from diverse file type codings used in the image files which can be difficult to interpret by the script. The errors concerning these image file type codings may become solved by running the script "supplementary-script-for-reading-and-writing-files-of-inputimages-and-maskimages-developed-by-lauri-lahti.R" before running the script "neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R".
 
 
 if( !("magrittr" %in% rownames( installed.packages() ) ) ) {
@@ -57,7 +59,6 @@ library(magick)
 library(spatstat)
 library(EBImage)
 library(ggplot2)
-library(ijtiff)
 
 
 current_working_directory <- "."
@@ -124,11 +125,12 @@ filepath_of_image_for_output_combined = paste( current_working_directory , "/inp
 
 
 
-image_in_ijtiffformat <- read_tif(filepath_of_image_for_blurringinput_combined)
 
-image_in_ijtiffformat 
+image_test_in_ebimageformat_exp_temp <- readImage(filepath_of_image_for_blurringinput_combined)
 
-image_test_in_ebimageformat_exp <-  as_EBImage(image_in_ijtiffformat)
+writeImage(image_test_in_ebimageformat_exp_temp, "./temporary-image-file-1.tif", quality=100);
+
+image_test_in_ebimageformat_exp <-  readImage( "./temporary-image-file-1.tif" )
 
 plot(image_test_in_ebimageformat_exp)
 
@@ -266,11 +268,8 @@ filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_combined <
 
 
 
-image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_combined)
 
-image_in_ijtiffformat 
-
-c2 <-  as_EBImage(image_in_ijtiffformat)
+c2 <- readImage(filepath_of_image_for_input_combined)
 
 
 
@@ -346,11 +345,8 @@ maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
 
 
-image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
 
-image_in_ijtiffformat 
-
-c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
+c2_gray_original_nonblurred_image <- readImage("./temporary-image-file-1.tif" )
 
 
 plot(c2_gray_original_nonblurred_image)
@@ -502,11 +498,8 @@ dev.off()
 
 
 
-image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
 
-image_in_ijtiffformat 
-
-c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
+c2_gray_original_nonblurred_image <- readImage( "./temporary-image-file-1.tif"  )
 
 
 plot(c2_gray_original_nonblurred_image)
@@ -703,11 +696,9 @@ maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
 
 
-image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
 
-image_in_ijtiffformat 
+c2_gray_original_nonblurred_image <- readImage( "./temporary-image-file-1.tif" )
 
-c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
 
 
 plot(c2_gray_original_nonblurred_image)
@@ -773,11 +764,8 @@ maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
 
 
-image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
 
-image_in_ijtiffformat 
-
-c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
+c2_gray_original_nonblurred_image <- readImage( "./temporary-image-file-1.tif" )
 
 
 plot(c2_gray_original_nonblurred_image)
@@ -843,11 +831,8 @@ maskimage_thresholded = thresh(maskimage_in_ebimageformat_gray, 10, 10, 0.05)
 
 
 
-image_in_ijtiffformat <- read_tif(filepath_of_image_for_input_original_nonblurred_images_combined)
 
-image_in_ijtiffformat 
-
-c2_gray_original_nonblurred_image <-  as_EBImage(image_in_ijtiffformat)
+c2_gray_original_nonblurred_image <- readImage( "./temporary-image-file-1.tif" )
 
 
 plot(c2_gray_original_nonblurred_image)
@@ -971,8 +956,5 @@ write.table( combination_of_properties_about_regions_writeoutputformatting_simpl
 
 
 print( "The running of the script https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script/blob/main/neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R has ended and aimed to generate analysis results." )
-
-
-
 
 
