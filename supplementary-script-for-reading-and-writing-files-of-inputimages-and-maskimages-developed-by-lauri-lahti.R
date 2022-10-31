@@ -15,6 +15,9 @@ if( !("BiocManager" %in% rownames( installed.packages() ) ) ) {
   install.packages("BiocManager")
 }
 
+if( !("locfit" %in% rownames( installed.packages() ) ) ) {
+   install.packages("locfit")
+}
 
 if( !("EBImage" %in% rownames( installed.packages() ) ) ) {
   BiocManager::install("EBImage", update=FALSE, ask=FALSE)
@@ -22,7 +25,7 @@ if( !("EBImage" %in% rownames( installed.packages() ) ) ) {
 
 
 library(BiocManager)
-
+library(locfit)
 library(EBImage)
 
 
