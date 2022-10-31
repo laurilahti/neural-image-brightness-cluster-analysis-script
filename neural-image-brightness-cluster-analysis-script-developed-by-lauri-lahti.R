@@ -45,18 +45,14 @@ if( !("ggplot2" %in% rownames( installed.packages() ) ) ) {
    install.packages("ggplot2")
 }
 
-if( !("ijtiff" %in% rownames( installed.packages() ) ) ) {
-   install.packages("ijtiff")
-}
-
 
 library(magrittr)
 library(tidyverse)
 library(imager)
-library(BiocManager)
-library(locfit)
 library(magick)
 library(spatstat)
+library(BiocManager)
+library(locfit)
 library(EBImage)
 library(ggplot2)
 
