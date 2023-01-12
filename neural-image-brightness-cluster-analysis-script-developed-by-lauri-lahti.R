@@ -2,9 +2,9 @@
 
 #   This script can be used by anyone for non-commercial purposes while citing the just-mentioned research article (Lahti, Lauri, 2022) which provides further details.
 
-#   This current version (20221030a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 30 October 2022.
+#   This current version (20230111a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 11 January 2023.
 
-#   Please kindly note: This current version (20221030a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
+#   Please kindly note: This current version (20230111a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
 
 #   If the running of the script "neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R" produces error messages this may be related to having some conflicting settings. Some error messages can originate from diverse file type codings used in the image files which can be difficult to interpret by the script. The errors concerning these image file type codings may become solved by running the script "supplementary-script-for-reading-and-writing-files-of-inputimages-and-maskimages-developed-by-lauri-lahti.R" before running the script "neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R".
 
@@ -59,12 +59,19 @@ library(ggplot2)
 
 current_working_directory <- "."
 
+filepath_segment_for_folder_inputimages <- "\\inputimages\\"
+
+filepath_segment_for_folder_maskimages <- "\\maskimages\\"
+
+filepath_segment_for_folder_experiments <- "\\experiments\\"
+
+file_name_supplement_for_maskimages <- "_mask01nb"
+
 analysis_list_of_filenames_inputimages <- c(
 "image001"  
 )
 
-image_x_axis_length = 512
-image_y_axis_length = 512
+
 
 size_of_brush_of_Gaussian_kernel <- 51
 
@@ -76,6 +83,8 @@ analysis_list_of_max_number_of_pixels_in_segment_so_that_this_segment_still_need
 
 brightness_thresholdvalue_toensureshowingtrailingzeros_numberofdigitsshownafterdecimaldot = 2
 
+inputimages_from_imagestack_frame_to_be_picked <- 1
+
 
 analysis_list_of_filenames_initial <- NULL
 
@@ -84,15 +93,14 @@ analysis_list_of_filenames_initial_original_nonblurred_images <- NULL
 analysis_list_of_folders_initial <- NULL
 
 
-list_of_files_to_be_removed <- list.files( paste( current_working_directory , "/experiments/", sep="" )  , include.dirs = TRUE, full.names = TRUE, recursive = TRUE )
+list_of_files_to_be_removed <- list.files( paste( current_working_directory , filepath_segment_for_folder_experiments, sep="" )  , include.dirs = TRUE, full.names = TRUE, recursive = TRUE )
 
 list_of_files_to_be_removed <-  list_of_files_to_be_removed[lapply(list_of_files_to_be_removed,function(x) length(grep("readme-experiments.txt",x,value=FALSE))) == 0]
 
 unlink( list_of_files_to_be_removed , recursive = TRUE )
  
 
-x_func_axis_length = image_x_axis_length
-y_func_axis_length = image_y_axis_length
+
 
 
 
@@ -109,7 +117,7 @@ sigma_value_for_brush = value_of_sigma_for_brush_of_Gaussian_kernel_list[value_o
 filepath_of_image_for_blurringinput_initial_withoutending =  analysis_list_of_filenames_inputimages[analysis_list_of_filenames_inputimages_counter] 
 
 
-filepath_of_image_for_blurringinput_combined = paste( current_working_directory , "/inputimages/" , filepath_of_image_for_blurringinput_initial_withoutending  , ".tif", sep="")
+filepath_of_image_for_blurringinput_combined = paste( current_working_directory , filepath_segment_for_folder_inputimages , filepath_of_image_for_blurringinput_initial_withoutending  , ".tif", sep="")
 
 
 
@@ -117,7 +125,7 @@ filepath_of_image_for_blurringinput_combined = paste( current_working_directory 
 if( sigma_value_for_brush > -1 ) {
 
 
-filepath_of_image_for_output_combined = paste( current_working_directory , "/inputimages/" , filepath_of_image_for_blurringinput_initial_withoutending , "_sm",  gsub("\\.", "dot", sigma_value_for_brush) , ".tif", sep="")
+filepath_of_image_for_output_combined = paste( current_working_directory ,  filepath_segment_for_folder_inputimages , filepath_of_image_for_blurringinput_initial_withoutending , "_sm",  gsub("\\.", "dot", sigma_value_for_brush) , ".tif", sep="")
 
 
 
@@ -139,7 +147,7 @@ w_brush = makeBrush(size = size_of_brush_of_Gaussian_kernel, shape = "gaussian",
 tibble(w_brush = w_brush[(nrow(w_brush)+1)/2, ]) %>% ggplot(aes(y = w_brush, x = seq(along = w_brush))) + geom_point()
 
 
-nucSmooth = filter2(getFrame( image_test_in_ebimageformat_exp , 1), w_brush)
+nucSmooth = filter2(getFrame( image_test_in_ebimageformat_exp , inputimages_from_imagestack_frame_to_be_picked), w_brush)
 
 
 EBImage::display(nucSmooth, method = "raster")
@@ -219,19 +227,19 @@ for( counter_index_for_analysis in 1:length(analysis_list_of_filenames_initial) 
       for( counter_index_for_brightness_thresholdvalue in 1:length(analysis_list_of_brightness_thresholdvalue) ) {
 
 
-filepath_of_image_for_input_folder_initial <- paste( current_working_directory , "/inputimages/" , sep="") 
+filepath_of_image_for_input_folder_initial <- paste( current_working_directory ,  filepath_segment_for_folder_inputimages , sep="") 
 
-filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_folder_initial <- paste( current_working_directory , "/maskimages/" , sep="")
+filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_folder_initial <- paste( current_working_directory ,  filepath_segment_for_folder_maskimages , sep="")
 
 filepath_of_image_for_input_filename_initial <- analysis_list_of_filenames_initial[ counter_index_for_analysis ]
 
 filepath_of_image_for_input_filename_initial_original_nonblurred_images <- analysis_list_of_filenames_initial_original_nonblurred_images[ counter_index_for_analysis ]
 
-filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_filename_initial <- paste( analysis_list_of_filenames_initial_original_nonblurred_images[ counter_index_for_analysis ] , "_mask01nb", sep="" )
+filepath_of_image_for_input_maskdefinedbywhiteregiononblackbackground_filename_initial <- paste( analysis_list_of_filenames_initial_original_nonblurred_images[ counter_index_for_analysis ] , file_name_supplement_for_maskimages, sep="" )
 
 
 
-filepath_of_image_for_output_folder_initial <- paste( current_working_directory , "/experiments/", "set", sprintf("%03d", counter_index_for_analysis ) , "/" , sep="")
+filepath_of_image_for_output_folder_initial <- paste( current_working_directory , filepath_segment_for_folder_experiments, "set", sprintf("%03d", counter_index_for_analysis ) , "\\" , sep="")
 
 dir.create( filepath_of_image_for_output_folder_initial )
 
@@ -283,6 +291,14 @@ if (colorMode(c2) != Grayscale) {
 
 plot(c2_gray)
 
+
+image_test_in_ebimageformat_exp_original_nonblurred_temp <- readImage(filepath_of_image_for_input_original_nonblurred_images_combined)
+
+writeImage(image_test_in_ebimageformat_exp_original_nonblurred_temp, "./temporary-image-file-1.tif", quality=100);
+
+image_test_in_ebimageformat_exp_original_nonblurred <-  readImage( "./temporary-image-file-1.tif" )
+
+plot(image_test_in_ebimageformat_exp_original_nonblurred)
 
 
 	      
@@ -362,7 +378,7 @@ plot(c2_gray_original_nonblurred_image_gray)
 
 
 
-
+c2_gray_original_nonblurred_image = c2_gray_original_nonblurred_image_gray
 
 c2_gray_original_nonblurred_image_incolormode_keepinggrayshades <- rgbImage(red = c2_gray_original_nonblurred_image, green = c2_gray_original_nonblurred_image, blue = c2_gray_original_nonblurred_image )
 
@@ -621,7 +637,7 @@ names(area_specialcol) = c("xl", "xu", "yl", "yu")
 area_specialcol
 
 
-list_test_as_numeric_new = list(  x = as.numeric(regions_x_coord), y= as.numeric(  (dim(c2_gray)[2]) -  regions_y_coord), area = area_specialcol)
+list_test_as_numeric_new = list(  x = as.numeric(regions_x_coord), y= as.numeric(  regions_y_coord), area = area_specialcol)
 
 
 list_test_as_numeric_new_as_ppp = as.ppp(list_test_as_numeric_new)
@@ -713,7 +729,7 @@ if (colorMode(c2_gray_original_nonblurred_image) != Grayscale) {
 plot(c2_gray_original_nonblurred_image_gray)
 
 
-
+c2_gray_original_nonblurred_image = c2_gray_original_nonblurred_image_gray
 
 c2_gray_original_nonblurred_image_incolormode_keepinggrayshades <- rgbImage(red = c2_gray_original_nonblurred_image, green = c2_gray_original_nonblurred_image, blue = c2_gray_original_nonblurred_image )
 
@@ -780,7 +796,7 @@ if (colorMode(c2_gray_original_nonblurred_image) != Grayscale) {
 plot(c2_gray_original_nonblurred_image_gray)
 
 
-
+c2_gray_original_nonblurred_image = c2_gray_original_nonblurred_image_gray
 
 c2_gray_original_nonblurred_image_incolormode_keepinggrayshades <- rgbImage(red = c2_gray_original_nonblurred_image, green = c2_gray_original_nonblurred_image, blue = c2_gray_original_nonblurred_image )
 
@@ -848,6 +864,7 @@ plot(c2_gray_original_nonblurred_image_gray)
 
 
 
+c2_gray_original_nonblurred_image = c2_gray_original_nonblurred_image_gray
 
 
 c2_gray_original_nonblurred_image_incolormode_keepinggrayshades <- rgbImage(red = c2_gray_original_nonblurred_image, green = c2_gray_original_nonblurred_image, blue = c2_gray_original_nonblurred_image )
@@ -952,5 +969,9 @@ write.table( combination_of_properties_about_regions_writeoutputformatting_simpl
 
 
 print( "The running of the script https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script/blob/main/neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R has ended and aimed to generate analysis results." )
+
+
+
+
 
 
