@@ -4,9 +4,9 @@
 
 #   This supplementary script can be used by anyone for non-commercial purposes while citing the just-mentioned research article (Lahti, Lauri, 2022) which provides further details.
 
-#   This current version (20230111a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 11 January 2023.
+#   This current version (20230111b) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 11 January 2023.
 
-#   Please kindly note: This current version (20230111a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
+#   Please kindly note: This current version (20230111b) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
 
 #   If the running of the script "neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R" produces error messages this may be related to having some conflicting settings. Some error messages can originate from diverse file type codings used in the image files which can be difficult to interpret by the script. The errors concerning these image file type codings may become solved by running the script "supplementary-script-for-reading-and-writing-files-of-inputimages-and-maskimages-developed-by-lauri-lahti.R" before running the script "neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R".
 
@@ -31,9 +31,9 @@ library(EBImage)
 
 current_working_directory = "."
 
-filepath_segment_for_folder_inputimages <- "\\inputimages\\"
+filepath_segment_for_folder_inputimages <- "/inputimages/"
 
-filepath_segment_for_folder_maskimages <- "\\maskimages\\"
+filepath_segment_for_folder_maskimages <- "/maskimages/"
 
 list_of_files_to_be_evaluated <- list.files( paste( current_working_directory ,  filepath_segment_for_folder_inputimages , sep="" )  , include.dirs = TRUE, full.names = TRUE, recursive = TRUE )
 
