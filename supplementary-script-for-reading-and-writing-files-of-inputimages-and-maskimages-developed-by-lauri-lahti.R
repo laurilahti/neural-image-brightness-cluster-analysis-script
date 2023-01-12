@@ -4,9 +4,9 @@
 
 #   This supplementary script can be used by anyone for non-commercial purposes while citing the just-mentioned research article (Lahti, Lauri, 2022) which provides further details.
 
-#   This current version (20221030a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 30 October 2022.
+#   This current version (20230111a) of the script is completed and published by Lauri Lahti at https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script on 11 January 2023.
 
-#   Please kindly note: This current version (20221030a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
+#   Please kindly note: This current version (20230111a) of the script is intended primarily for testing purposes and a later version of the script is expected to have further functionality. 
 
 #   If the running of the script "neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R" produces error messages this may be related to having some conflicting settings. Some error messages can originate from diverse file type codings used in the image files which can be difficult to interpret by the script. The errors concerning these image file type codings may become solved by running the script "supplementary-script-for-reading-and-writing-files-of-inputimages-and-maskimages-developed-by-lauri-lahti.R" before running the script "neural-image-brightness-cluster-analysis-script-developed-by-lauri-lahti.R".
 
@@ -29,10 +29,13 @@ library(locfit)
 library(EBImage)
 
 
-current_working_directory ="."
+current_working_directory = "."
 
+filepath_segment_for_folder_inputimages <- "\\inputimages\\"
 
-list_of_files_to_be_evaluated <- list.files( paste( current_working_directory , "/inputimages/", sep="" )  , include.dirs = TRUE, full.names = TRUE, recursive = TRUE )
+filepath_segment_for_folder_maskimages <- "\\maskimages\\"
+
+list_of_files_to_be_evaluated <- list.files( paste( current_working_directory ,  filepath_segment_for_folder_inputimages , sep="" )  , include.dirs = TRUE, full.names = TRUE, recursive = TRUE )
 
 list_of_files_to_be_evaluated <-  list_of_files_to_be_evaluated[lapply(list_of_files_to_be_evaluated,function(x) length(grep("readme-inputimages.txt",x,value=FALSE))) == 0]
 
@@ -60,7 +63,7 @@ plot(image_test_in_ebimageformat_exp)
 
 
 
-list_of_files_to_be_evaluated <- list.files( paste( current_working_directory , "/maskimages/", sep="" )  , include.dirs = TRUE, full.names = TRUE, recursive = TRUE )
+list_of_files_to_be_evaluated <- list.files( paste( current_working_directory ,  filepath_segment_for_folder_maskimages , sep="" )  , include.dirs = TRUE, full.names = TRUE, recursive = TRUE )
 
 list_of_files_to_be_evaluated <-  list_of_files_to_be_evaluated[lapply(list_of_files_to_be_evaluated,function(x) length(grep("readme-maskimages.txt",x,value=FALSE))) == 0]
 
@@ -89,6 +92,7 @@ plot(image_test_in_ebimageformat_exp)
 
 
 print( "The running of the script https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script/blob/main/supplementary-script-for-reading-and-writing-files-of-inputimages-and-maskimages-developed-by-lauri-lahti.R has ended and aimed to read and write files of inputimages and maskimages." )
+
 
 
 
