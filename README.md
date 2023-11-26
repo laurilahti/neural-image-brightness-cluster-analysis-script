@@ -1,5 +1,21 @@
 "Neural image brightness cluster analysis script" developed, created and programmed by Lauri Lahti, Department of Computer Science, Aalto University School of Science, Finland (email: lauri.lahti@aalto.fi), first published on 15 July 2022 and openly available in the following document: Lahti, Lauri (2022). Developing ethical and transparent artificial intelligence algorithms to support decision making in healthcare based on brain research and personal care events of patients. Research article manuscript self-archived on 15 July 2022 at https://aaltodoc.aalto.fi/handle/123456789/115565. Open access: http://urn.fi/URN:NBN:fi:aalto-202207154400.
 
+Lauri Lahti has developed, created, programmed and used this script to generate data analysis results for the following published peer-reviewed journal article in which he is a co-author:
+
+Pushpa Khanal, Zoran Boskovic, Lauri Lahti, Aruna Ghimire, Rimante Minkeviciene, Patricio Opazo and Pirta Hotulainen (2023). Gas7 is a novel dendritic spine initiation factor. eNeuro, 24 March 2023, 10 (4): ENEURO.0344-22.2023. DOI: https://doi.org/10.1523/ENEURO.0344-22.2023. https://www.eneuro.org/content/10/4/ENEURO.0344-22.2023. Received 26 August 2022, accepted 14 March 2023, first published 24 March 2023.<br>
+Available also at (licence CC BY): https://research.aalto.fi/files/108158616/Gas7_Is_a_Novel_Dendritic_Spine_Initiation_Factor.pdf
+
+Lauri Lahti's (LL) contributions as a co-author of the journal article are indicated in the following documents:
+
+eNeuro Accepted Manuscript version, Early Release article, first published 24 March 2023, 10.1523/ENEURO.0344-22.2023 (https://www.eneuro.org/content/eneuro/early/2023/03/20/ENEURO.0344-22.2023.full.pdf):<br>
+LL developed and created a new cluster analysis method and programmed a new R language script named "Neural image brightness cluster analysis script" and performed all cluster analyses, presented in Figures 1C, 5C, 5E, 5F, 6B, 6C, 6E, 6F and 7B.<br>
+LL wrote the chapter "Cluster analysis".<br> 
+All authors read, edited, and approved the final manuscript.<br>
+This Early Release article has been peer-reviewed and accepted, but has not been through the composition and copyediting processes. The final version may differ slightly in style or formatting and will contain links to any extended data.
+
+eNeuro Final version April 2023, 10 (4): ENEURO.0344-22.2023 (https://www.eneuro.org/content/eneuro/10/4/ENEURO.0344-22.2023.full.pdf):<br>
+P.K., L.L., P.O., and P.H. analyzed data.
+
 This script can be used by anyone for non-commercial purposes while citing the just-mentioned research article (Lahti, Lauri, 2022) which provides further details.
 
 This script is openly available at the following GitHub repository: https://github.com/laurilahti/neural-image-brightness-cluster-analysis-script
